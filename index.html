@@ -306,8 +306,12 @@ function particles(canvas){
 document.querySelectorAll("canvas.particles").forEach(particles);
 
 // routing
+// Scene comes from #name, or ?scene=name, or the DEFAULT_SCENE set for this file
+// (some apps, like PRISM, break links with # in them, so each scene also has its own file).
+const DEFAULT_SCENE = "live";
 function route(){
-  const h = location.hash.replace("#","");
+  let h = location.hash.replace("#","");
+  if (!SCENES.includes(h)) h = new URLSearchParams(location.search).get("scene") || DEFAULT_SCENE;
   const scene = SCENES.includes(h) ? h : null;
   document.getElementById("menu").classList.toggle("on", !scene);
   document.body.classList.toggle("inscene", !!scene);
